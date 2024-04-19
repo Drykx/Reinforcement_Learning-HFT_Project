@@ -1,5 +1,5 @@
 import abc
-import gym
+import gymnasium as gym
 from copy import copy
 from typing import Optional
         

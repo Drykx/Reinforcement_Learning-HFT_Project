@@ -1,6 +1,6 @@
 from typing import Union, Callable, Tuple
 
-import gym
+import gymnasium as gym
 import numpy as np
 import torch
 from torch.optim.lr_scheduler import StepLR, _LRScheduler

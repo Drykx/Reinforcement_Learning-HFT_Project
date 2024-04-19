@@ -1,6 +1,6 @@
 from typing import List, Any, Type, Optional, Union, Sequence
 
-import gym
+import gymnasium as gym
 import numpy as np
 from stable_baselines3.common.vec_env import VecEnv
 from stable_baselines3.common.vec_env.base_vec_env import VecEnvObs, VecEnvStepReturn, VecEnvIndices
@@ -40,7 +40,7 @@ class StableBaselinesTradingEnvironment(VecEnv):
         pass
 
     def get_attr(self, attr_name: str, indices: VecEnvIndices = None) -> List[Any]:
-        pass
+        raise AttributeError()
 
     def set_attr(self, attr_name: str, value: Any, indices: VecEnvIndices = None) -> None:
         pass

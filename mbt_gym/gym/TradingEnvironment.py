@@ -2,10 +2,10 @@ from collections import OrderedDict
 from copy import copy, deepcopy
 from typing import Union, Tuple, Callable
 
-import gym
+import gymnasium as gym
 import numpy as np
 
-from gym.spaces import Box
+from gymnasium.spaces import Box
 
 from mbt_gym.agents.Agent import Agent
 from mbt_gym.gym.ModelDynamics import ModelDynamics, LimitOrderModelDynamics

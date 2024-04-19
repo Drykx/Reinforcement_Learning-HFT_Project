@@ -2,7 +2,7 @@ import multiprocessing as mp
 from collections import OrderedDict
 from typing import Any, Callable, List, Optional, Sequence, Tuple, Type, Union, Iterable
 
-import gym
+import gymnasium as gym
 import numpy as np
 from gym import spaces
 

@@ -1,4 +1,4 @@
-import gym
+import gymnasium as gym
 import numpy as np
 import pandas as pd
 from mbt_gym.gym.TradingEnvironment import TradingEnvironment
