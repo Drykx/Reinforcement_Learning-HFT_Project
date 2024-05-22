@@ -6,14 +6,12 @@ from typing import Optional
 import numpy as np
 from numpy.random import default_rng
 
-
 from mbt_gym.gym.index_names import CASH_INDEX, INVENTORY_INDEX, BID_INDEX, ASK_INDEX
 
 from mbt_gym.stochastic_processes.arrival_models import ArrivalModel
 from mbt_gym.stochastic_processes.fill_probability_models import FillProbabilityModel
 from mbt_gym.stochastic_processes.midprice_models import MidpriceModel
 from mbt_gym.stochastic_processes.price_impact_models import PriceImpactModel
-
 
 class ModelDynamics(metaclass=abc.ABCMeta):
     def __init__(
@@ -83,6 +81,53 @@ class ModelDynamics(metaclass=abc.ABCMeta):
     def midprice(self):
         return self.midprice_model.current_state[:, 0].reshape(-1, 1)
 
+class LimitOrderModelDynamicsTesting(ModelDynamics):
+    """ModelDynamics for 'limit'."""
+    def __init__(
+        self,
+        midprice_model : MidpriceModel  = None,
+        arrival_model : ArrivalModel  = None,
+        fill_probability_model : FillProbabilityModel  = None,
+        num_trajectories: int = 1,
+        seed: int = None,
+        max_depth : float = None,
+    ):
+        super().__init__(midprice_model = midprice_model,
+                        arrival_model = arrival_model,
+                        fill_probability_model = fill_probability_model, 
+                        num_trajectories = num_trajectories,
+                        seed = seed)
+        self.max_depth = max_depth or self._get_max_depth()
+        self.required_processes = self.get_required_stochastic_processes()
+        self._check_processes_are_not_none(self.required_processes)
+        self.round_initial_inventory = True
+
+    def update_state(self, arrivals: np.ndarray, fills: np.ndarray, action: np.ndarray):
+        self.state[:, INVENTORY_INDEX] += np.sum(arrivals * fills * -self.fill_multiplier, axis=1)
+        self.state[:, CASH_INDEX] += np.sum(
+                self.fill_multiplier
+                * arrivals
+                * fills
+                * (self.midprice + self._limit_depths(action) * self.fill_multiplier),
+                axis=1,
+            )
+        # print(f'LOB-state:{self.state}')
+    
+    def get_action_space(self) -> gym.spaces.Space:
+        assert self.max_depth is not None, "For limit orders max_depth cannot be None."
+        # agent chooses spread on bid and ask
+        return gym.spaces.Box(low=np.float32(0.0), high=np.float32(self.max_depth), shape=(2,))
+    
+    def get_required_stochastic_processes(self):
+        processes = ["arrival_model", "fill_probability_model"]
+        return processes
+
+    def get_arrivals_and_fills(self, action: np.ndarray):
+        # Special example
+        arrivals = self.arrival_model.get_arrivals()
+        depths = self._limit_depths(action)
+        fills = self.fill_probability_model.get_fills(depths)
+        return arrivals, fills
 
 class LimitOrderModelDynamics(ModelDynamics):
     """ModelDynamics for 'limit'."""
@@ -130,7 +175,6 @@ class LimitOrderModelDynamics(ModelDynamics):
         fills = self.fill_probability_model.get_fills(depths)
         return arrivals, fills
 
-
 class AtTheTouchModelDynamics(ModelDynamics):
     """ModelDynamics for 'touch'."""
     def __init__(
@@ -174,7 +218,6 @@ class AtTheTouchModelDynamics(ModelDynamics):
         arrivals = self.arrival_model.get_arrivals()
         fills = self._post_at_touch(action)
         return arrivals, fills
-
 
 class LimitAndMarketOrderModelDynamics(ModelDynamics):
     """ModelDynamics for 'limit_and_market'."""

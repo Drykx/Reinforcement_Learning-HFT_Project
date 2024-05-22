@@ -2,6 +2,7 @@ from math import sqrt
 from typing import Optional
 
 import numpy as np
+import pandas as pd
 
 from mbt_gym.stochastic_processes.StochasticProcessModel import StochasticProcessModel
 
@@ -31,7 +32,6 @@ class ConstantMidpriceModel(MidpriceModel):
 
     def update(self, arrivals: np.ndarray, fills: np.ndarray, actions: np.ndarray, state: np.ndarray = None) -> np.ndarray:
         pass
-
 
 class BrownianMotionMidpriceModel(MidpriceModel):
     def __init__(
@@ -228,7 +228,53 @@ class BrownianMotionJumpMidpriceModel(MidpriceModel):
 
     def _get_max_value(self, initial_price, terminal_time):
         return initial_price + 4 * self.volatility * terminal_time
+    
+class BrownianMotionJumpMidpriceModelTesting(MidpriceModel):
+    def __init__(
+        self,
+        data: pd.Series,
+        drift: float = 0.0,
+        volatility: float = 2.0,
+        jump_size: float = 1.0,
+        initial_price: float = 100,
+        terminal_time: float = 1.0,
+        step_size: float = 0.01,
+        num_trajectories: int = 1,
+        seed: Optional[int] = None,
+    ):
+        self.drift = drift
+        self.volatility = volatility
+        self.jump_size = jump_size
+        self.terminal_time = terminal_time
+        self.idx = 0
+        self.data = data
+        super().__init__(
+            min_value=np.array([[initial_price - (self._get_max_value(initial_price, terminal_time) - initial_price)]]),
+            max_value=np.array([[self._get_max_value(initial_price, terminal_time)]]),
+            step_size=step_size,
+            terminal_time=terminal_time,
+            initial_state=np.array([[initial_price]]),
+            num_trajectories=num_trajectories,
+            seed=seed,
+        )
 
+    def update(self, arrivals: np.ndarray, fills: np.ndarray, actions: np.ndarray, state: np.ndarray = None) -> np.ndarray:
+        
+        fills_bid = fills[:, BID_INDEX] * arrivals[:, BID_INDEX]
+        fills_ask = fills[:, ASK_INDEX] * arrivals[:, ASK_INDEX]
+        self.current_state = np.array([self.data.iloc[self.idx]]).reshape(1, -1)
+        self.idx += 1
+        # print(f'Midprice: {self.current_state}')
+        # self.current_state = (
+        #     self.current_state
+        #     + self.drift * self.step_size * np.ones((self.num_trajectories, 1))
+        #     + self.volatility * sqrt(self.step_size) * self.rng.normal(size=(self.num_trajectories, 1))
+        #     + (self.jump_size * fills_ask - self.jump_size * fills_bid).reshape(-1,1)
+        # )
+        
+
+    def _get_max_value(self, initial_price, terminal_time):
+        return initial_price + 4 * self.volatility * terminal_time
 
 class OuJumpMidpriceModel(MidpriceModel):
     def __init__(

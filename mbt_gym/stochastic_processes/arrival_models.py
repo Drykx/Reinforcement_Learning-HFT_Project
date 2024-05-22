@@ -2,6 +2,7 @@ import abc
 from typing import Optional
 
 import numpy as np
+import pandas as pd
 
 from mbt_gym.stochastic_processes.StochasticProcessModel import StochasticProcessModel
 
@@ -116,6 +117,13 @@ class HawkesArrivalModel(ArrivalModel):
             * np.ones((self.num_trajectories, 2))
             + self.jump_size * arrivals
         )
+        
+        # self.current_state = (
+        #     self.baseline_arrival_rate * np.ones((self.num_trajectories, 2))
+        #     + np.exp(-self.mean_reversion_speed * self.step_size) * (self.current_state - self.baseline_arrival_rate * np.ones((self.num_trajectories, 2)))
+        #     + self.jump_size * arrivals
+        # )
+
         return self.current_state
 
     def get_arrivals(self) -> np.ndarray:
@@ -127,3 +135,57 @@ class HawkesArrivalModel(ArrivalModel):
 
     # TODO: Improve this with 4*std
     # See: https://math.stackexchange.com/questions/4047342/expectation-of-hawkes-process-with-exponential-kernel
+
+class HawkesArrivalModelTesting(ArrivalModel):
+    def __init__(
+        self,
+        data: pd.Series,
+        baseline_arrival_rate: np.ndarray = np.array([[2.0, 2.0]]),
+        step_size: float = 0.01,
+        jump_size: float = 40.0,
+        mean_reversion_speed: float = 60.0,
+        terminal_time: float = 1,
+        num_trajectories: int = 1,
+        seed: Optional[int] = None,
+    ):
+        self.baseline_arrival_rate = baseline_arrival_rate
+        self.jump_size = jump_size  # see https://arxiv.org/pdf/1507.02822.pdf, equation (4).
+        self.mean_reversion_speed = mean_reversion_speed
+        self.idx = 0
+        self.data = data
+        super().__init__(
+            min_value=np.array([[0, 0]]),
+            max_value=np.array([[1, 1]]) * self._get_max_arrival_rate(),
+            step_size=step_size,
+            terminal_time=terminal_time,
+            initial_state=baseline_arrival_rate,
+            num_trajectories=num_trajectories,
+            seed=seed,
+        )
+
+    def update(self, arrivals: np.ndarray, fills: np.ndarray, actions: np.ndarray, state: np.ndarray = None) -> np.ndarray:
+        # self.current_state = (
+        #     self.mean_reversion_speed
+        #     * (np.ones((self.num_trajectories, 2)) * self.baseline_arrival_rate - self.current_state)
+        #     * self.step_size
+        #     * np.ones((self.num_trajectories, 2))
+        #     + self.jump_size * arrivals
+        # )
+
+        self.current_state = (
+            self.baseline_arrival_rate * np.ones((self.num_trajectories, 2))
+            + np.exp(-self.mean_reversion_speed * self.step_size) * (self.current_state - self.baseline_arrival_rate * np.ones((self.num_trajectories, 2)))
+            + self.jump_size * arrivals
+        )
+
+        # print(f'Arrival: {self.current_state}')
+        return self.current_state
+
+    def get_arrivals(self) -> np.ndarray:
+        # Dataframe column order - 'seconds', 'midprice', 'arrivals'
+        arrivals = self.data.iloc[self.idx]
+        self.idx += 1
+        return np.array(arrivals).reshape(1, -1)
+
+    def _get_max_arrival_rate(self):
+        return self.baseline_arrival_rate * 10
