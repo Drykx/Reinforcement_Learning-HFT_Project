@@ -18,7 +18,7 @@ Our research questions were the following,
 
 -   How is the volatility of the mid-price influencing the performance of the model based agent (on backtest data)? 
 -   Under which settings can we have the most adversial robust agent?
--   Can the performance bound in the last question be exceeded?
+-   Can the performance bound resulting in excess volatility in the training setting from the last question be exceeded?
 
 ## Organization
 
