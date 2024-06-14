@@ -12,9 +12,11 @@ In the course Reinforcement Learning `EE-568` at EPFL, under the supervision of 
 
 ### Reproducibility 
 
-### Github 
-In the [Source](Source) folder, you can find the [Jupyter Notebook](Source/Project.qmd) as well as two module .py files [European functions](Source/European_Functions.py) and [Asian functions](Source/Asian_Functions.py). And you can find the final report and the presentation [here](Docs/Project.pdf) and [here](Docs/Presentation.pdf).
+### Github Organisation
 
+You can find here the [mbt_gym](https://github.com/JJJerome/mbt_gym) module, and here an example of a [Jupyter Notebook](CleanExample.ipynb) with our build vizualisation method. 
+
+The [Report](src/Project.pdf) and the [Poster](src/Poster.pdf) are in the source folder.
 
 ## Improvement
 
