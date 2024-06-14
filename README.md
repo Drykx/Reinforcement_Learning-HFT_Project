@@ -20,13 +20,33 @@ Our research questions were the following,
 -   Under which settings can we have the most adversial robust agent?
 -   Can the performance bound resulting in excess volatility in the training setting from the last question be exceeded?
 
+### Trading Environment
+1. State space: cash $C_t$, inventory $Q_t$ (number of assets held), time $L_t$, midprice $S_t$, arrival $H_t$, and price impact $I_t$.
+2. Action space: a continuous two-dimensional space composed of $\delta^b_t,\delta^a_t$, the distance between the mid-price and the bid/ask price.
+3. Reward function: Running Inventory Penalty (RIP)  
+4. Stochastic models:
+   - Midprice model: Brownian Motion Midprice Model
+   - Arrival model: Hawkes Arrival Model
+   - Fill probability model: Exponential Fill Function
+
+### Reinforcement Learning Algorithm 
+
+**Proximal Policy Optimization (PPO)**  
+1) Rollout phase: the agent interacts with the environment in every 1,000 timesteps to collect rewards, which generates trajectories of states, actions, rewards, and next states
+2) Learning phase:
+   - Generalized Advantage Estimation (GAE) by computing the advantage function for each timestep
+   - Based on the probability ratio $\tau(\theta)$ between the new and old policies and the clipped surrogate loss $L^{CLIP}$, the actual policy update is performed
+through a stochastic gradient descent (SGD)
+
+This iterative process ensures continuous refinement of the policy while maintaining stability through controlled updates. 
+
 ## Organization
 
 ### Github Organisation
 
 You can find our modification of the [mbt_gym](mbt_gym) module with the main input being the [vizualisation methods](mbt_gym/gym/helpers/helper2.py) and the new functions in certain files to implement the backtest; here is an example of one our [Jupyter Notebooks](CleanExample.ipynb) with these changes. 
 
-The [Report](src/Project.pdf) and the [Poster](src/Poster.pdf) are in the source folder.
+The [Report](src/Project.pdf) and the [Poster](src/Poster.pdf) are in the source folder. 
 
 ### Reproducibility 
 
