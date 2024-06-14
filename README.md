@@ -2,7 +2,7 @@
 
 ## Introduction
 
-In the course Reinforcement Learning `EE-568` at EPFL, under the supervision of Yves Rechner and Philipp J. Schneider, we trained trading agents with **PPO** and **StableBaselines3** based on [mbt_gym](https://github.com/JJJerome/mbt_gym) module, a suite of gymnasium environment to solve model-based HFT problems such as market-making and optimal execution
+In the course Reinforcement Learning `EE-568` at EPFL, under the supervision of Yves Rechner and Philipp J. Schneider, we trained trading agents with **PPO** and **StableBaselines3** based on [mbt_gym](https://github.com/JJJerome/mbt_gym) module, a suite of gymnasium environment who aims to solve model-based HFT problems such as market-making and optimal execution
 
 
 For the final work of `MATH-414`, we picked the project: [Stochastic approximation in mathematical finance](Docs/stochastic_approximation.pdf). We were asked to answer the questions and deliver a report accompanied by an oral presentation
