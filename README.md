@@ -1,4 +1,4 @@
-# Reinforcement Learning in Limit Order Book for Cryptocurrency Trading
+# RL in Limit Order Book for Cryptocurrency Trading
 
 ## Introduction
 
