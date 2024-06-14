@@ -16,7 +16,7 @@ We also demonstrated the agent's limited performance in excessively volatile env
 
 Our research questions were the following,
 
--   How is volatility of the mid-price influencing the performance of the model based agent (on backtest data)? 
+-   How is the volatility of the mid-price influencing the performance of the model based agent (on backtest data)? 
 -   Under which settings can we have the most adversial robust agent?
 -   Can the performance bound in the last question be exceeded?
 
