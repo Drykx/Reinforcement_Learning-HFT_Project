@@ -43,4 +43,7 @@ The code only runs with a Python version prior to 3.11, i.e. 3.10.9.
    pip install -r requirements.txt
    ```
 
+## Future Work
+
+It will be interesting to understand how time delay impacts the performance of the agent and which tunning has to be implemented to enhance the agent's performance. 
 
