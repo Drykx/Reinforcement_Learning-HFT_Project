@@ -24,8 +24,8 @@ The code only runs with a Python version prior to 3.11, i.e. 3.10.9.
 
 1. **Clone the Repository**:
    ```sh
-   git clone https://github.com/your-username/your-repository.git
-   cd your-repository
+   git clone https://github.com/Drykx/Reinforcement_Learning-HFT_Project.git
+   cd Reinforcement_Learning-HFT_Project
    python -m venv venv
    source venv/bin/activate  # On Linux/Mac
    .\venv\Scripts\activate   # On Windows
