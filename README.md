@@ -8,11 +8,17 @@ In the course Reinforcement Learning `EE-568` at EPFL, under the supervision of 
 
 ### Research Questions
 
+Our research questions were the following,
+
+-   How is volatility of the mid-price influencing the performance of the model based agent (on backtest data)? 
+-   Under which settings can we have the most adversial robust agent?
+-   Can the performance bound if the last question be exceeded?
+
 ## Organization
 
 ### Github Organisation
 
-You can find our modification of the [mbt_gym](mbt_gym) module with the main input being the [vizualisation methods](mbt_gym/gym/helpers/helper2.py) and the new functions in certain files to implement the backtest; here is an example of one our [Jupyter Notebooks](CleanExample.ipynb) with this changes. 
+You can find our modification of the [mbt_gym](mbt_gym) module with the main input being the [vizualisation methods](mbt_gym/gym/helpers/helper2.py) and the new functions in certain files to implement the backtest; here is an example of one our [Jupyter Notebooks](CleanExample.ipynb) with these changes. 
 
 The [Report](src/Project.pdf) and the [Poster](src/Poster.pdf) are in the source folder.
 
