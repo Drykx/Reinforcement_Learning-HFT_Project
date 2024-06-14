@@ -6,6 +6,12 @@ In the course Reinforcement Learning `EE-568` at EPFL, under the supervision of 
 
 ### Abstract 
 
+Hawkes processes have been used to model the arrivals of orders in financial markets since the early 2000s. This model has gain popularity from its ability to capture the self-exciting nature of order flows—where an order can increase the likelihood of subsequent orders, creating clusters of activity that are characteristic of high-frequency trading environments.
+
+We aimed to understand the dynamics of highly volatile cryptocurrency markets. Initially, we approached the problem from the perspective of a market maker. However, we discovered that the cluster of arrivals, modeled by Hawkes processes, presents a constant arbitrage opportunity. 
+Specifically, our backtesting results showed that the agent would never hold or sell more than one asset. When the agent's order is executed within a cluster of filled orders, they would exit each order cluster with a positive spread bonus. 
+We also demonstrated the agent's limited performance in excessively volatile environments, and as these clusters can only occur in moderately stochastic environments the agents performance will be poor in non volatile environment. 
+
 ### Research Questions
 
 Our research questions were the following,
