@@ -10,7 +10,7 @@ Hawkes processes have been used to model the arrivals of orders in financial mar
 
 We aimed to understand the dynamics of highly volatile cryptocurrency markets. Initially, we approached the problem from the perspective of a market maker. However, we discovered that the cluster of arrivals, modeled by Hawkes processes, presents a constant arbitrage opportunity. 
 Specifically, our backtesting results showed that the agent would never hold or sell more than one asset. When the agent's order is executed within a cluster of filled orders, they would exit each order cluster with a positive spread bonus. 
-We also demonstrated the agent's limited performance in excessively volatile environments, and as these clusters can only occur in moderately stochastic environments the agents performance will be poor in non volatile environment. 
+We also demonstrated the agent's limited performance in excessively volatile environments, and as these clusters can only occur in moderately stochastic environments. The agents performance will also be poor in too less volatile environment as it lacks the ability to predict futur trends.
 
 ### Research Questions
 
