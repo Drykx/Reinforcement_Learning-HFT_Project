@@ -25,7 +25,7 @@ Our research questions were the following,
 2. Action space: a continuous two-dimensional space composed of $\delta^b_t,\delta^a_t$, the distance between the mid-price and the bid/ask price.
 3. Reward function: Running Inventory Penalty (RIP)  
 4. Stochastic models:
-   - Midprice model: Brownian Motion Midprice Model
+   - Midprice model: Jump Brownian Motion Midprice Model
    - Arrival model: Hawkes Arrival Model
    - Fill probability model: Exponential Fill Function
 
